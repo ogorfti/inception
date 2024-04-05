@@ -1,0 +1,9 @@
+services:
+  nginx-test:
+    image: nginx
+    ports:
+      - 443:443
+      # - 80:80
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/nginx-conf:/etc/nginx/conf.d
