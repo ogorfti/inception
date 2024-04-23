@@ -10,7 +10,7 @@ check_docker() {
 
 # Function to check if there are running containers
 check_running_containers() {
-    local running_containers=$(docker ps -q)
+    local running_containers=$(docker ps -aq)
     if [ -n "$running_containers" ]; then
         echo "Stopping and removing running containers..."
         docker stop $running_containers >/dev/null 2>&1
