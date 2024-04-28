@@ -1,46 +1,50 @@
 services:
   nginx:
-    build:
-      context: .
-      dockerfile: requirements/nginx/Dockerfile
-    # container_name: nginx
+    build: ./requirements/nginx
+    container_name: nginx
+    image: nginx
     restart: always
     ports:
       - 443:443
     volumes:
       - ./requirements/nginx/conf:/etc/nginx/conf.d
+      - ./requirements/wordpress/html:/var/www/html
+    depends_on:
+      - wordpress
+    networks:
+      - inception
 
-#   db-test:
-#     image: mariadb
-#     environment:
-#       MYSQL_ROOT_PASSWORD: pass
-#       MYSQL_DATABASE: my_wordpress_database
-#       MYSQL_USER: user
-#       MYSQL_PASSWORD: pass
-#     volumes:
-#       - ./mariadb/data:/var/lib/mysql
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    image: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    env_file:
+      - .env
+    networks:
+      - inception
+  
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    image: wordpress
+    # restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - ./requirements/wordpress/html:/var/www/html
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    networks:
+      - inception
 
-#   wp-test:
-#     image: wordpress
-#     ports:
-#       - 8080:80
-#     environment:
-#       WORDPRESS_DB_HOST: db-test:3306
-#       WORDPRESS_DB_USER: user
-#       WORDPRESS_DB_PASSWORD: pass
-#       WORDPRESS_DB_NAME: my_wordpress_database
-#     volumes:
-#       - ./wordpress/html:/var/www/html
-
-#   phpmyadmin-test:
-#     image: phpmyadmin/phpmyadmin
-#     ports:
-#       - 8081:80
-#     environment:
-#       PMA_HOST: db-test
-#       PMA_USER: user
-#       PMA_PASSWORD: pass
-
+networks:
+  inception:
+    name: inception
 # volumes:
-#   db-test:
-#   wp-test:
+#   wordpress:
+#   - 
