@@ -26,6 +26,11 @@ dir:
 	@mkdir -p /home/$(USER)/inception/data/wordpress
 	@mkdir -p /home/$(USER)/inception/data/mariadb
 
+undir:
+	@echo "$(YELLOW)Removing volume directories...$(RESET)"
+	@sudo rm -rf /home/$(USER)/inception/data/wordpress
+	@sudo rm -rf /home/$(USER)/inception/data/mariadb
+
 #prune -af: unused volumes, networks, images, and stopped containers
 
 clean: down

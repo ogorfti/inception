@@ -2,7 +2,7 @@ services:
   nginx:
     build: ./requirements/nginx
     container_name: nginx
-    image: nginx
+    image: nginx:13.37
     restart: always
     ports:
       - 443:443
@@ -17,24 +17,23 @@ services:
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
-    image: mariadb
+    image: mariadb:13.37
     restart: always
-    ports:
-      - 3306:3306
     volumes:
       - mariadb-data:/var/lib/mysql
     env_file:
       - .env
     networks:
       - inception
+    secrets:
+      - DB_PASSWORD
+      - DB_ROOT_PASSWORD
   
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
-    image: wordpress
+    image: wordpress:13.37
     restart: always
-    ports:
-      - 9000:9000
     volumes:
       - wordpress-data:/var/www/html
     env_file:
@@ -43,6 +42,9 @@ services:
       - mariadb
     networks:
       - inception
+    secrets:
+      - DB_PASSWORD
+      - CREDENTIALS
 
 networks:
   inception:
@@ -61,3 +63,10 @@ volumes:
       type: none
       o: bind
       device: /home/$USER/inception/data/mariadb
+secrets:
+  DB_PASSWORD:
+    file: ../secrets/db_password.txt
+  DB_ROOT_PASSWORD:
+    file: ../secrets/db_root_password.txt
+  CREDENTIALS:
+    file: ../secrets/credentials.txt
