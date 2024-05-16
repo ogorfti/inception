@@ -1,4 +1,6 @@
 
+<--- Notes --->
+- Docker is an engine that runs containers
 
 
 <--- Docker Volumes --->
@@ -10,12 +12,54 @@ types of volumes:
 2. Anonymous volumes - `/var/lib/mysql`
 3. Host volumes - `/opt/data:/var/lib/mysql`
 
-
-
-
-
-
-
 <--- Resources --->
 - https://www.geeksforgeeks.org/what-is-docker-daemon/
 - https://www.youtube.com/watch?v=p2PH_YPCsis&ab_channel=TechWorldwithNana
+
+
+
+`Namespace:` define what resources can container access on the host machine.
+
+`cgroup:` define how much of those resourses can container consume.
+
+*Container from scratch:*
+<br>
+
+1. mount a directory: create a new root filesystem
+
+2. unshare a namespace: Unsharing a namespace isolates the container's process space, providing it with a unique view of the system distinct from the host machine (unshare) is a sys 
+
+3. chroot to a directory: Change the root directory of the process to the new root filesystem.
+
+4. create a cgroup: Make a new cgroup to limit what the container can use.
+
+5. set limits in the cgroup: Decide how much the container can use.
+
+6. start application in the cgroup: Start the application in the cgroup.
+
+<br>
+
+*OCI (Open Container Initiative):*
+
+- The OCI wants to make the container technology the same everywhere, like container pictures and runtimes and what is and how it should be done.
+
+*CRI (Container Runtime Interface):*
+
+- The CRI runtime is a plugin that allows Kubernetes to use different container runtimes like containerd, and CRI-O.
+
+*Docker engine:*
+
+- The Docker engine is a client-server application with these major components:
+    - A server which is a type of long-running program called a daemon process (the dockerd command).
+    - A REST API which specifies interfaces that programs can use to talk to the daemon and instruct it what to do.
+    - A command line interface (CLI) client (the docker command).
+
+*Where is everything stored?*
+
+- Images: /var/lib/docker
+- Containers: /var/lib/docker
+- Volumes: /var/lib/docker/volumes
+- Networks: /var/lib/docker/network
+- Docker socket: /var/run/docker.sock
+- Docker configuration: /etc/docker/daemon.json
+

@@ -56,13 +56,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/$USER/inception/data/wordpress
+      device: /home/$USER/data/wordpress
   mariadb-data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/$USER/inception/data/mariadb
+      device: /home/$USER/data/mariadb
 secrets:
   DB_PASSWORD:
     file: ../secrets/db_password.txt
