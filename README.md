@@ -63,3 +63,17 @@ types of volumes:
 - Docker socket: /var/run/docker.sock
 - Docker configuration: /etc/docker/daemon.json
 
+*cotnainerd:*
+
+- containerd is an industry-standard core container runtime that provides a stable, reliable, and consistent interface to run containers on a single machine it's use a OCI (Open Container Initiative) runtime like runc.
+
+*manifest.json:*
+
+- The manifest.json file is a JSON file that describes the layers of an image and the configuration of the image 
+like the entrypoint, command, environment variables, and labels.
+
+*overlay2:*
+
+- Overlay2 is a storage driver that is used by Docker to store images and containers. It is a copy-on-write storage driver that is optimized for speed and space.
+- it's works by creating a read-only layer for the image and a read-write layer for the container. When a container is started, a new read-write layer is created on top of the image layer. This layer is called the container layer.
+- and instead of copying the image layer to the container layer, overlay2 uses a technique called copy-on-write. This means that when a file is modified in the container layer, it is copied to the container layer and modified there. This allows multiple containers to share the same image layer without duplicating the data.
